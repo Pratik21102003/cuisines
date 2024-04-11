@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
-from googletrans import Translator
 # Load data from CSV
 data = pd.read_csv('Updated_data.csv')
 
@@ -20,18 +19,6 @@ data['course']=data['course'].replace(['Side Dish','Appetizer'],'Pre-meal')
 
 data['ingredients']=data['ingredients'].str.lower()
 #print(data.shape)
-def translate_hindi_to_english(text):
-    # Create a translator object
-    translator = Translator()
-    # Detect the language of the input text
-    detected_language = translator.detect(text).lang
-    if detected_language == 'hi':
-        translated_text = translator.translate(text, src='hi', dest='en').text
-        return translated_text
-    else:
-        translated_text = translator.translate(text, src='en', dest='hi').text
-        return translated_text
-
 # Streamlit app
 st.title('Flavour Fusion')
 st.header('Cuisines Recommendation')
@@ -68,11 +55,6 @@ if selected_name:
     ingredient=st.checkbox('Ingredients')
     if agree:
        st.write(selected_row['instructions'].iloc[0])
-    trans=st.checkbox('Translate')
-    if trans:
-        instruction=selected_row['instructions'].iloc[0]
-        translation = translate_hindi_to_english(instruction)
-        st.write(translation)
     if ingredient:
        st.write(selected_row['ingredients'].iloc[0])
     
